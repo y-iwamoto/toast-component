@@ -13,10 +13,22 @@ export function useToastPlayGround() {
     setVariant(event.target.value);
   }, []);
 
+
+  const [isOpenToast, setIsOpenToast] = useState(false);
+  const onClickOpenToast = useCallback(() => {
+    setIsOpenToast(true);
+  }, []);
+  const onClickCloseToast = useCallback(() => {
+    setIsOpenToast(false);
+  }, []);
+
   return {
     message,
     variant,
+    isOpenToast,
     handleChangeMessage,
     handleChangeVariant,
+    onClickOpenToast,
+    onClickCloseToast
   }
 }
