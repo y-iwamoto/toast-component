@@ -4,13 +4,13 @@ import Button from '../Button';
 
 import styles from './ToastPlayground.module.css';
 import { useToastPlayGround, VARIANT_OPTIONS } from './hooks';
-import Toast from '../Toast';
+import ToastShelf from '../ToastShelf';
 
 function ToastPlayground() {
   const {
     message,
     variant,
-    isOpenToast,
+    toastList,
     handleChangeMessage,
     handleChangeVariant,
     onClickOpenToast,
@@ -24,9 +24,9 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      {isOpenToast && <Toast variant={variant} message={message} onClickCloseToast={onClickCloseToast} />}
+      <ToastShelf toastList={toastList} onClickCloseToast={onClickCloseToast} />
 
-      <div className={styles.controlsWrapper}>
+      <form onSubmit={onClickOpenToast} className={styles.controlsWrapper}>
         <div className={styles.row}>
           <label
             htmlFor="message"
@@ -66,10 +66,10 @@ function ToastPlayground() {
           <div
             className={`${styles.inputWrapper} ${styles.radioWrapper}`}
           >
-            <Button onClick={onClickOpenToast}>Pop Toast!</Button>
+            <Button>Pop Toast!</Button>
           </div>
         </div>
-      </div>
+      </form>
     </div >
   );
 }

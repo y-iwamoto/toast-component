@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 export const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 export function useToastPlayGround() {
+  const [toastList, setToastList] = useState([]);
   const [message, setMessage] = useState('');
   const handleChangeMessage = useCallback((event) => {
     setMessage(event.target.value);
@@ -14,18 +15,26 @@ export function useToastPlayGround() {
   }, []);
 
 
-  const [isOpenToast, setIsOpenToast] = useState(false);
-  const onClickOpenToast = useCallback(() => {
-    setIsOpenToast(true);
-  }, []);
-  const onClickCloseToast = useCallback(() => {
-    setIsOpenToast(false);
-  }, []);
+  const onClickOpenToast = useCallback((event) => {
+    event.preventDefault();
+    if (!message) return;
+    const addToast = { id: crypto.randomUUID(), message, variant }
+    toastList.push(addToast)
+    setToastList(toastList)
+    setMessage('')
+    setVariant(VARIANT_OPTIONS[0])
+  }, [message, toastList, variant]);
+
+  const onClickCloseToast = useCallback((event, id) => {
+    event.preventDefault();
+    const renewToastList = toastList.filter((toast) => toast.id !== id)
+    setToastList(renewToastList)
+  }, [toastList]);
 
   return {
     message,
     variant,
-    isOpenToast,
+    toastList,
     handleChangeMessage,
     handleChangeVariant,
     onClickOpenToast,
