@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ToastContext } from '../ToastProvider';
 
 export function useToastPlayGround() {
@@ -8,7 +8,22 @@ export function useToastPlayGround() {
     handleChangeMessage,
     handleChangeVariant,
     onSubmitToast,
+    handleAllCLoseToasts,
   } = useContext(ToastContext);
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.keyCode === 27) {
+        handleAllCLoseToasts();
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleAllCLoseToasts]);
 
   return {
     message,

@@ -33,6 +33,10 @@ function ToastProvider({ children }) {
     setToastList(renewToastList)
   }, [toastList]);
 
+  const handleAllCLoseToasts = useCallback(() => {
+    setToastList([])
+  }, [])
+
   return (<ToastContext.Provider
     value={{
       message,
@@ -41,7 +45,8 @@ function ToastProvider({ children }) {
       handleChangeMessage,
       handleChangeVariant,
       onSubmitToast,
-      onClickCloseToast
+      onClickCloseToast,
+      handleAllCLoseToasts
     }}
   >
     {children}
