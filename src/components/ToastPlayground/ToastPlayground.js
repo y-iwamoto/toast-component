@@ -3,18 +3,17 @@ import React from 'react';
 import Button from '../Button';
 
 import styles from './ToastPlayground.module.css';
-import { useToastPlayGround, VARIANT_OPTIONS } from './hooks';
+import { useToastPlayGround } from './hooks';
 import ToastShelf from '../ToastShelf';
+import { VARIANT_OPTIONS } from '../ToastProvider'
 
 function ToastPlayground() {
   const {
     message,
     variant,
-    toastList,
     handleChangeMessage,
     handleChangeVariant,
-    onClickOpenToast,
-    onClickCloseToast
+    onSubmitToast,
   } = useToastPlayGround();
 
   return (
@@ -24,9 +23,9 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      <ToastShelf toastList={toastList} onClickCloseToast={onClickCloseToast} />
+      <ToastShelf />
 
-      <form onSubmit={onClickOpenToast} className={styles.controlsWrapper}>
+      <form onSubmit={onSubmitToast} className={styles.controlsWrapper}>
         <div className={styles.row}>
           <label
             htmlFor="message"
