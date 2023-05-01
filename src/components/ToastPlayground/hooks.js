@@ -1,5 +1,6 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { ToastContext } from '../ToastProvider';
+import { useEscapeKey } from '../../hooks/useEscapeKey';
 
 export function useToastPlayGround() {
   const {
@@ -8,22 +9,9 @@ export function useToastPlayGround() {
     handleChangeMessage,
     handleChangeVariant,
     onSubmitToast,
-    handleAllCLoseToasts,
   } = useContext(ToastContext);
 
-  useEffect(() => {
-    function handleKeyDown(event) {
-      if (event.keyCode === 27) {
-        handleAllCLoseToasts();
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleAllCLoseToasts]);
+  useEscapeKey();
 
   return {
     message,
