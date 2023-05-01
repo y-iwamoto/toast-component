@@ -3,10 +3,19 @@ import React from 'react';
 import Button from '../Button';
 
 import styles from './ToastPlayground.module.css';
-
-const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
+import { useToastPlayGround } from './hooks';
+import ToastShelf from '../ToastShelf';
+import { VARIANT_OPTIONS } from '../ToastProvider'
 
 function ToastPlayground() {
+  const {
+    message,
+    variant,
+    handleChangeMessage,
+    handleChangeVariant,
+    onSubmitToast,
+  } = useToastPlayGround();
+
   return (
     <div className={styles.wrapper}>
       <header>
@@ -14,7 +23,9 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      <div className={styles.controlsWrapper}>
+      <ToastShelf />
+
+      <form onSubmit={onSubmitToast} className={styles.controlsWrapper}>
         <div className={styles.row}>
           <label
             htmlFor="message"
@@ -24,7 +35,7 @@ function ToastPlayground() {
             Message
           </label>
           <div className={styles.inputWrapper}>
-            <textarea id="message" className={styles.messageInput} />
+            <textarea id="message" className={styles.messageInput} value={message} onChange={handleChangeMessage} />
           </div>
         </div>
 
@@ -33,17 +44,19 @@ function ToastPlayground() {
           <div
             className={`${styles.inputWrapper} ${styles.radioWrapper}`}
           >
-            <label htmlFor="variant-notice">
-              <input
-                id="variant-notice"
-                type="radio"
-                name="variant"
-                value="notice"
-              />
-              notice
-            </label>
 
-            {/* TODO Other Variant radio buttons here */}
+            {VARIANT_OPTIONS.map((v) => (
+              <label key={v} htmlFor={`variant-${v}`}>
+                <input
+                  id={`variant-${v}`}
+                  type="radio"
+                  name="variant"
+                  value={v}
+                  onChange={handleChangeVariant}
+                  checked={variant === v}
+                />
+                {v}</label>
+            ))}
           </div>
         </div>
 
@@ -55,8 +68,8 @@ function ToastPlayground() {
             <Button>Pop Toast!</Button>
           </div>
         </div>
-      </div>
-    </div>
+      </form>
+    </div >
   );
 }
 
